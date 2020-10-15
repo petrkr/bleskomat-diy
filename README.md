@@ -85,34 +85,11 @@ Here is a wiring diagram for the Bleskomat ATM:
 ![](images/Bleskomat-v1.sch.png)
 
 
-#### Wiring the Power Supply
+#### PCB and the Power Supply
 
-The first step to building the device is wiring the power supply. If already plugged in, __unplug__ the 12V DC power supply now. Use scissors to cut the end off the power supply so that you can freely access the two wires within, as shown in the following image:
-
-![](images/12v-dc-power-supply.jpg)
-
-It is important to test the wires to know for certain which is the ground. Use a [multimeter](https://duckduckgo.com/?q=multimeter&t=canonical&iar=images&iax=images&ia=images) to measure the voltage of the power supply:
-* Plug-in the power supply to electricity
-* Turn on your multimeter and set it to measure voltage in the appropriate range
-* Touch the __red__ lead of your multimeter to one of the wires
-* Touch the __black__ lead of your multimeter to the other wire
-* If you see a negative voltage reading, swap the leads between the two wires
-* The wire touched by the __black__ lead is the ground ("gnd")
-* The wire touched by the __red__ lead is the hot wire ("pwr")
-* Unplug the power supply again
-
-Now use the [wiring diagram](#wiring-diagram) above as a guide to wire the ESP32 to the power supply.
-
-Note that powering the ESP32 via its micro USB port requires a regulated voltage of approximately 5V. The suggested step-down converter is the [XL4005](https://duckduckgo.com/?q=xl4005&t=canonical&iax=images&ia=images). It does a good job of keeping a steady voltage and doesn't generate much heat.
-
-Once you've connected the step-down converter to the power supply, use your multimeter to measure the voltage at the out pins. Use a small screwdriver to turn the screw on the little blue box. Turning the screw counter clockwise should lower the voltage, turning it the opposite direction should increase the voltage. Once you have the voltage set to 5V, you can connect the USB (F) adapter to the out pins.
+![](images/PowerSupply_PCB.jpg)
 
 Use a standard USB to micro USB cable to connect the ESP32.
-
-Do not forget to connect the ESP32 to the common ground. Without this connection, the ESP32 will not be able to receive pulses from the coin acceptor when the ESP32 is connected to your computer via USB.
-
-There are other options when powering the ESP32 - e.g via the 3.3V pin or the 5V/VIN pin. You should __never__ power the ESP32 via more than one of these options at the same time. For example, do not power the ESP32 via its 3.3V pin while also connecting the ESP32 via USB to your computer. This can damage the ESP32 and possibly also your computer.
-
 
 
 #### Wiring the TFT Display
