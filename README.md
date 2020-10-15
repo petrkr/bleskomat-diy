@@ -82,7 +82,7 @@ Before proceeding, be sure that you have all the project's [hardware requirement
 
 Here is a wiring diagram for the Bleskomat ATM:
 
-![](images/wiring-diagram.png)
+![](images/Bleskomat-v1.sch.png)
 
 
 #### Wiring the Power Supply
