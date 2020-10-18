@@ -1,5 +1,6 @@
 /*
 	Copyright (C) 2020 Samotari (Charles Hill, Carlos Garcia Ortiz)
+	Copyright (C) 2020 Joe Tinker
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -24,21 +25,19 @@
 #include <string>
 #include <Arduino.h>
 
-#ifndef BG_COLOR_HEX
-	#define BG_COLOR_HEX "FFFFFF"
-#endif
-
-#ifndef TEXT_COLOR_HEX
-	#define TEXT_COLOR_HEX "000000"
-#endif
-
 namespace display {
 	void init();
 	void updateAmount(const float &amount, const std::string &fiatCurrency);
+	void updateBigAmount(const float &amount, const std::string &fiatCurrency);
+	void showAlert(const int &percent);
+	void showIntro();
 	void clearAmount();
+	void clearBigAmount(const uint8_t &width, const uint8_t &height);
+	void clearLCD();
 	float getRenderedAmount();
 	void renderQRCode(const std::string &dataStr);
 	void clearQRCode();
 	bool hasRenderedQRCode();
+	bool hasShowedIntro();
 	unsigned long getTimeSinceRenderedQRCode();
 }

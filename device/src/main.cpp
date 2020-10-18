@@ -1,5 +1,6 @@
 /*
 	Copyright (C) 2020 Samotari (Charles Hill, Carlos Garcia Ortiz)
+	Copyright (C) 2020 Joe Tinker
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -28,7 +29,6 @@ void setup() {
 	config::init();
 	logger::write("Config OK");
 	display::init();
-	display::updateAmount(0.00, config::fiatCurrency);
 	logger::write("Display OK");
 	coinAcceptor::init();
 	coinAcceptor::setFiatCurrency(config::fiatCurrency);
@@ -39,7 +39,7 @@ void setup() {
 const unsigned long bootTime = millis();// milliseconds
 const unsigned long minWaitAfterBootTime = 2000;// milliseconds
 const unsigned long minWaitTimeSinceInsertedFiat = 15000;// milliseconds
-const unsigned long maxTimeDisplayQrCode = 120000;// milliseconds
+const unsigned long maxTimeDisplayQrCode = 180000;// milliseconds
 
 void loop() {
 	if (millis() - bootTime >= minWaitAfterBootTime) {
@@ -48,10 +48,10 @@ void loop() {
 		coinAcceptor::loop();
 		if (display::getTimeSinceRenderedQRCode() >= maxTimeDisplayQrCode) {
 			// Automatically clear the QR code from the screen after some time has passed.
-			display::clearQRCode();
+			display::clearLCD();
 		} else if (coinAcceptor::coinInserted() && display::hasRenderedQRCode()) {
 			// Clear the QR code when new coins are inserted.
-			display::clearQRCode();
+			display::clearLCD();
 		}
 		float accumulatedValue = coinAcceptor::getAccumulatedValue();
 		if (
@@ -68,11 +68,22 @@ void loop() {
 				config::apiKeySecret,
 				config::callbackUrl
 			);
+			display::clearLCD();
+			display::updateAmount(accumulatedValue, config::fiatCurrency);
 			display::renderQRCode("lightning:" + req);
 			coinAcceptor::reset();
 		}
+		if ( accumulatedValue > 0 ) {
+			if (display::hasShowedIntro()) display::clearLCD();
+			display::showAlert(100*coinAcceptor::getTimeSinceLastInserted()/minWaitTimeSinceInsertedFiat);
+		} else if (!display::hasShowedIntro() && !display::hasRenderedQRCode()) {
+				display::showIntro();
+		}
+		if ( display::hasRenderedQRCode() ) {
+			display::showAlert(100*display::getTimeSinceRenderedQRCode()/maxTimeDisplayQrCode);
+		}
 		if (!display::hasRenderedQRCode() && display::getRenderedAmount() != accumulatedValue) {
-			display::updateAmount(accumulatedValue, config::fiatCurrency);
+			display::updateBigAmount(accumulatedValue, config::fiatCurrency);
 		}
 	}
 }

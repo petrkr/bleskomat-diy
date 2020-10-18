@@ -1,5 +1,6 @@
 /*
 	Copyright (C) 2020 Samotari (Charles Hill, Carlos Garcia Ortiz)
+	Copyright (c) 2020 Joe Tinker
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -16,6 +17,7 @@
 */
 
 #include "display.h"
+#include "modules/coin-acceptor.h"
 
 namespace {
 
@@ -24,8 +26,13 @@ namespace {
 	const uint8_t MARGIN_Y = 12;
 	const uint8_t TEXT_MULTIPLIER = 1;
 	const uint8_t TEXT_FONT = 2;
+	const bool horizontalLCD = true; // true for horizontal LCD orientation
+	bool introIsShowed = false;
 	int BG_COLOR;
 	int TEXT_COLOR;
+	int OK_COLOR;
+	int STOP_COLOR;
+	int WARNING_COLOR;
 	unsigned long LAST_RENDERED_QRCODE_TIME = 0;
 	float RENDERED_AMOUNT = 0.00;
 
@@ -59,20 +66,6 @@ namespace {
 		);
 	}
 
-	// http://www.barth-dev.de/about-rgb565-and-how-to-convert-into-it/
-	uint16_t hexToRGB565(const std::string& hexColor) {
-		uint16_t Rgb565 = 0;
-		unsigned int x;
-		std::stringstream ss;
-		ss << std::hex << hexColor;
-		ss >> x;
-		uint8_t red = (x >> 16) & 255;
-		uint8_t green = (x >> 8) & 255;
-		uint8_t blue = x & 255;
-		Rgb565 = (((red & 0xf8)<<8) + ((green & 0xfc)<<3) + (blue>>3));
-		return Rgb565;
-	}
-
 	int getPrecision(const std::string &fiatCurrency) {
 		if (fiatCurrency == "EUR") {
 			return 2;
@@ -85,14 +78,16 @@ namespace display {
 
 	void init() {
 		tft.begin();
-		BG_COLOR = hexToRGB565(BG_COLOR_HEX);
-		TEXT_COLOR = hexToRGB565(TEXT_COLOR_HEX);
+		BG_COLOR = TFT_WHITE;
+		TEXT_COLOR = TFT_BLACK;
+		OK_COLOR = TFT_GREEN;
+		WARNING_COLOR = TFT_ORANGE;
+		STOP_COLOR = TFT_RED;
 		tft.fillScreen(BG_COLOR);
 		tft.setTextFont(TEXT_FONT);
 	}
 
 	void updateAmount(const float &amount, const std::string &fiatCurrency) {
-		clearAmount();
 		RENDERED_AMOUNT = amount;
 		int precision = getPrecision(fiatCurrency);
 		std::ostringstream stream;
@@ -103,13 +98,76 @@ namespace display {
 		tft.setTextSize(TEXT_MULTIPLIER);
 		tft.setTextColor(TEXT_COLOR);
 		const uint8_t textWidth = tft.textWidth(text);
+		clearAmount();
 		tft.setCursor((tft.width() - textWidth) / 2, MARGIN_Y);
 		tft.println(text);
+	}
+
+	void updateBigAmount(const float &amount, const std::string &fiatCurrency) {
+		RENDERED_AMOUNT = amount;
+		int precision = getPrecision(fiatCurrency);
+		std::ostringstream stream;
+		stream << std::fixed << std::setprecision(precision) << amount << " " << fiatCurrency;
+		const std::string str = stream.str();
+		logger::write("Update amount: " + str);
+		if (amount == 0) return;
+		const char* text = str.c_str();
+		tft.setTextSize(TEXT_MULTIPLIER);
+		tft.setTextColor(TEXT_COLOR);
+		tft.setTextSize(2);
+		if (horizontalLCD) tft.setRotation(1);
+		const uint8_t bigTextWidth = tft.textWidth(text);
+		clearBigAmount(bigTextWidth, calculateAmountTextHeight());
+		tft.setCursor((tft.width() - bigTextWidth) / 2, (tft.height() - calculateAmountTextHeight()) / 2);
+		tft.println(text);
+		tft.setRotation(0);
+	}
+
+	void showAlert(const int &percent) {
+		const uint8_t Ax = 13;
+		const uint8_t Ay = 13;
+		if (percent >= 80) {
+		    tft.fillRect(Ax, Ay, tft.width()/14, tft.height()/14, STOP_COLOR);
+		    return;
+		}
+		if (percent >= 60) {
+		    tft.fillRect(Ax, Ay, tft.width()/14, tft.height()/14, WARNING_COLOR);
+		    return;
+		}
+		tft.fillRect(Ax, Ay, tft.width()/14, tft.height()/14, OK_COLOR);
+	}
+
+	void showIntro() {
+		clearLCD(); introIsShowed = true;
+		tft.setTextSize(TEXT_MULTIPLIER);
+		tft.setTextColor(TEXT_COLOR);
+		tft.setRotation(1);
+		tft.setCursor(0,8);
+		tft.println(" 1. priprav si penezenku");
+		tft.println("    pro Bitcoin Lightning");
+		tft.println(" 2. vloz mince (CZK)");
+		tft.println(" 3. po zobrazeni QR jiz");
+		tft.println("    mince nevhazuj !");
+		tft.println(" 4. pomoci penezenky");
+		tft.println("    naskenuj QR kod");
+		tft.setRotation(0);
 	}
 
 	void clearAmount() {
 		// Clear previous text by drawing a white rectangle over it.
 		tft.fillRect(0, MARGIN_Y, tft.width(), calculateAmountTextHeight(), BG_COLOR);
+	}
+
+	void clearBigAmount(const uint8_t &width, const uint8_t &height) {
+		// Clear previous text by drawing a white rectangle over it.
+		tft.fillRect((tft.width() - width) / 2, (tft.height() - height) / 2, width, height, BG_COLOR);
+	}
+
+	void clearLCD() {
+		logger::write("Clear LCD");
+		tft.fillScreen(BG_COLOR);
+		LAST_RENDERED_QRCODE_TIME = 0;
+		introIsShowed = false;
 	}
 
 	float getRenderedAmount() {
@@ -146,6 +204,10 @@ namespace display {
 
 	bool hasRenderedQRCode() {
 		return LAST_RENDERED_QRCODE_TIME > 0;
+	}
+
+	bool hasShowedIntro() {
+		return introIsShowed;
 	}
 
 	unsigned long getTimeSinceRenderedQRCode() {
