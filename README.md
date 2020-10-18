@@ -54,7 +54,8 @@ To build the physical device, you will need the following hardware components:
 * [TFT Display ST7735s - 1.8 inch (128x160 pixel)](images/bezel-ST7735s.jpg)
 * Coin Acceptor - "Model HX-616"
 * 12V DC power adaptor with \~1A
-* Step-down converter with USB (F) adapter - alternatively you could use a USB car charger
+* [Step-down converter DC/DC](images/dc-dc_6-28V_5V.png)
+* Installation enclosure CP5001 (210x280x130)
 * Standard USB to micro USB cable
 
 It is strongly recommended to use a multimeter while wiring the device.
