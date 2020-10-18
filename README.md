@@ -50,8 +50,8 @@ This section includes information about the requirements (software + hardware) t
 ### Hardware Requirements
 
 To build the physical device, you will need the following hardware components:
-* [NodeMCU-32s](images\NodeMCU-32s-img.png) [ESP-WROOM-32](https://www.espressif.com/en/products/modules/esp-wroom-32/overview) by espressif
-* TFT Display - The 1.8 inch (128x160 pixel) model is assumed by default
+* [NodeMCU-32s](images/NodeMCU-32s-img.png) [ESP-WROOM-32](https://www.espressif.com/en/products/modules/esp-wroom-32/overview) by espressif
+* [TFT Display ST7735s - 1.8 inch (128x160 pixel)](images/bezel-ST7735s.jpg)
 * Coin Acceptor - "Model HX-616"
 * 12V DC power adaptor with \~1A
 * Step-down converter with USB (F) adapter - alternatively you could use a USB car charger
