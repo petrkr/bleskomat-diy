@@ -86,33 +86,16 @@ Here is a wiring diagram for the Bleskomat ATM:
 ![](images/Bleskomat-v1.sch.png)
 
 
-#### PCB and the Power Supply
+#### Device and the Power Supply
 
 ![](images/PowerSupply_PCB.jpg)
 
 Use a standard USB to micro USB cable to connect the ESP32.
 
 
-#### Wiring the TFT Display
+#### PCB
 
-Have a look at the [wiring diagram](#wiring-diagram) above or the table of cable mappings below:
-
-|  ESP32       | TFT        |
-|--------------|------------|
-| VIN          | VCC        |
-| GND          | GND        |
-| GPIO5  (D5)  | CS         |
-| GPIO16 (RX2) | RST        |
-| GPIO17 (TX2) | RS         |
-| GPIO23 (D23) | SDA        |
-| GPIO18 (D18) | CLK (SCK)  |
-| 3.3V (3V3)   | LED (NC)   |
-
-Notes on pin naming:
-* There are boards where `GPIXXX` are marked as `GXX` instead of `DXX`.
-* The `G23` may be there **twice** - the correct one is next to `GND`.
-* Some boards have typos so a bit of guess-and-check is necessary sometimes.
-
+![](images/PCB.jpg)
 
 #### Wiring the Coin Acceptor
 
