@@ -35,7 +35,7 @@ Key features of the Bleskomat ATM include:
 * Easily hackable and extendible
 * Plug it in and it's ready to accept fiat in seconds
 
-![](images/Bleskomaty.png)
+![](images/Bleskomaty.jpg)
 
 The project consists of two parts:
 * __HTTP Server__ - supports [lnurl-withdraw](https://github.com/btcontract/lnurl-rfc/blob/master/lnurl-withdraw.md) with additional request handlers for fiat-currency -> satoshi conversion and request signing.
