@@ -37,10 +37,11 @@ Key features of the Bleskomat ATM include:
 
 ![](images/Bleskomaty.jpg)
 
+## [Video presentation (CZ)](https://www.youtube.com/watch?v=SmE7AxKkGUo)
+
 The project consists of two parts:
 * __HTTP Server__ - supports [lnurl-withdraw](https://github.com/btcontract/lnurl-rfc/blob/master/lnurl-withdraw.md) with additional request handlers for fiat-currency -> satoshi conversion and request signing.
 * __Physical Device (ATM)__ - user inserts coins, device generates a signed LNURL and displays as QR code, user's app (which supports lnurl-withdraw) scans QR code and makes request to HTTP server, withdraw process is completed and the user has successfully bought satoshis with fiat coins.
-
 
 ## Requirements
 
