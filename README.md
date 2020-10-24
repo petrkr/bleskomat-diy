@@ -97,16 +97,9 @@ Use a standard USB to micro USB cable to connect the ESP32.
 
 ![](images/PCB.jpg)
 
-#### Wiring the Coin Acceptor
+#### DC/DC module
 
-Have a look at the [wiring diagram](#wiring-diagram) above or the table of cable mappings below:
-
-|  ESP32      | HX 616   | Power Supply  |
-|-------------|----------|---------------|
-|             | DC12V    | + 12V DC      |
-| GPIO4 (D4)  | COIN     |               |
-|             | GND      | - Ground      |
-
+![](images/dc-dc_6-28V_5V.png)
 
 ### Training the Coin Acceptor
 
