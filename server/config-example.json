@@ -19,5 +19,6 @@
 			"mock": true
 		}
 	},
-	"fiatCurrency": "CZK"
+	"fiatCurrency": "CZK",
+	"defaultDescription": "X001"
 }

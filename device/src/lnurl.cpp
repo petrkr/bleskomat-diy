@@ -1,5 +1,6 @@
 /*
 	Copyright (C) 2020 Samotari (Charles Hill, Carlos Garcia Ortiz)
+	Contributor: Joe Tinker
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -88,7 +89,12 @@ namespace {
 		return escaped.str();
 	}
 
-	std::string construct_payload(const float &amount, const std::string &fiatCurrency, const std::string &apiKeyId) {
+	std::string construct_payload(
+		const float &amount,
+		const std::string &fiatCurrency,
+		const std::string &apiKeyId,
+		const std::string &defaultDescription
+		) {
 		std::string nonce = generate_nonce_str();
 		std::string payload = "";
 		std::ostringstream amountStringStream;
@@ -106,6 +112,7 @@ namespace {
 		payload.append("&px=");
 		payload.append(amountStr);
 		payload.append("&pd=");
+		payload.append(url_encode(defaultDescription));
 		return payload;
 	}
 }
@@ -116,9 +123,10 @@ namespace lnurl {
 		const std::string &fiatCurrency,
 		const std::string &apiKeyId,
 		const std::string &apiKeySecret,
-		const std::string &callbackUrl
+		const std::string &callbackUrl,
+		const std::string &defaultDescription
 	) {
-		std::string payload = construct_payload(amount, fiatCurrency, apiKeyId);
+		std::string payload = construct_payload(amount, fiatCurrency, apiKeyId, defaultDescription);
 		std::string signature = create_signature(payload, apiKeySecret);
 		std::string hrp = "lnurl";
 		std::string url = "";

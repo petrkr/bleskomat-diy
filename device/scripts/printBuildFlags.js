@@ -46,6 +46,7 @@ let buildFlags = {
 	API_KEY_SECRET: apiKey.key,
 	CALLBACK_URL: `${baseUrl}${endpoint}`,
 	FIAT_CURRENCY: config.fiatCurrency,
+	DEFAULT_DESCRIPTION: config.defaultDescription
 };
 
 printBuildFlags(buildFlags);

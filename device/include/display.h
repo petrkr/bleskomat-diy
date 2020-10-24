@@ -30,6 +30,7 @@ namespace display {
 	void updateAmount(const float &amount, const std::string &fiatCurrency);
 	void updateBigAmount(const float &amount, const std::string &fiatCurrency);
 	void showAlert(const int &percent);
+	void displayBigText(const std::string &str);
 	void showIntro();
 	void clearAmount();
 	void clearBigAmount(const uint8_t &width, const uint8_t &height);

@@ -24,5 +24,6 @@ namespace config {
 		logger::write("apiKeySecret: " + apiKeySecret);
 		logger::write("callbackUrl: " + callbackUrl);
 		logger::write("fiatCurrency: " + fiatCurrency);
+		logger::write("defaultDescription: " + defaultDescription);
 	}
 }

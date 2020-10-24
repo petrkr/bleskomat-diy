@@ -1,6 +1,6 @@
 /*
 	Copyright (C) 2020 Samotari (Charles Hill, Carlos Garcia Ortiz)
-	Copyright (c) 2020 Joe Tinker
+	Contributor: Joe Tinker
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -111,8 +111,11 @@ namespace display {
 		const std::string str = stream.str();
 		logger::write("Update amount: " + str);
 		if (amount == 0) return;
+		displayBigText(str);
+	}
+
+	void displayBigText(const std::string &str) {
 		const char* text = str.c_str();
-		tft.setTextSize(TEXT_MULTIPLIER);
 		tft.setTextColor(TEXT_COLOR);
 		tft.setTextSize(2);
 		if (horizontalLCD) tft.setRotation(1);

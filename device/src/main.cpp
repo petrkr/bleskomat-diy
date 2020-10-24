@@ -1,6 +1,6 @@
 /*
 	Copyright (C) 2020 Samotari (Charles Hill, Carlos Garcia Ortiz)
-	Copyright (C) 2020 Joe Tinker
+	Contributor: Joe Tinker
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@ void setup() {
 	logger::write("Config OK");
 	display::init();
 	logger::write("Display OK");
+	display::displayBigText(config::defaultDescription);
 	coinAcceptor::init();
 	coinAcceptor::setFiatCurrency(config::fiatCurrency);
 	logger::write("Coin Reader OK");
@@ -37,7 +38,7 @@ void setup() {
 }
 
 const unsigned long bootTime = millis();// milliseconds
-const unsigned long minWaitAfterBootTime = 2000;// milliseconds
+const unsigned long minWaitAfterBootTime = 3000;// milliseconds
 const unsigned long minWaitTimeSinceInsertedFiat = 15000;// milliseconds
 const unsigned long maxTimeDisplayQrCode = 180000;// milliseconds
 
@@ -66,7 +67,8 @@ void loop() {
 				config::fiatCurrency,
 				config::apiKeyId,
 				config::apiKeySecret,
-				config::callbackUrl
+				config::callbackUrl,
+				config::defaultDescription
 			);
 			display::clearLCD();
 			display::updateAmount(accumulatedValue, config::fiatCurrency);

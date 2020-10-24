@@ -34,6 +34,10 @@
 	#error "Missing required build flag: FIAT_CURRENCY"
 #endif
 
+#ifndef DEFAULT_DESCRIPTION
+	#define DEFAULT_DESCRIPTION ""
+#endif
+
 #include <string>
 #include "logger.h"
 
@@ -48,5 +52,6 @@ namespace config {
 	const std::string apiKeySecret(trimQuotes(STRINGIFY(API_KEY_SECRET)));
 	const std::string callbackUrl(trimQuotes(STRINGIFY(CALLBACK_URL)));
 	const std::string fiatCurrency(trimQuotes(STRINGIFY(FIAT_CURRENCY)));
+	const std::string defaultDescription(trimQuotes(STRINGIFY(DEFAULT_DESCRIPTION)));
 	void init();
 }
