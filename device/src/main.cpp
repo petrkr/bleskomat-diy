@@ -22,12 +22,14 @@
 #include "logger.h"
 #include "lnurl.h"
 #include "modules.h"
+#include "modules/dev-console.h"
 
 void setup() {
 	Serial.begin(115200);
 	logger::enable();
 	config::init();
 	logger::write("Config OK");
+	devConsole::init();
 	display::init();
 	logger::write("Display OK");
 	display::displayBigText(config::defaultDescription);
@@ -43,6 +45,9 @@ const unsigned long minWaitTimeSinceInsertedFiat = 15000;// milliseconds
 const unsigned long maxTimeDisplayQrCode = 180000;// milliseconds
 
 void loop() {
+	if (Serial && Serial.available()) {
+	    if (devConsole::serialInput()) { devConsole::selectCmd(); }
+	};
 	if (millis() - bootTime >= minWaitAfterBootTime) {
 		// Minimum time has passed since boot.
 		// Start performing checks.

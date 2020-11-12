@@ -1,5 +1,6 @@
 /*
 	Copyright (C) 2020 Samotari (Charles Hill, Carlos Garcia Ortiz)
+	Contributor: Joe Tinker
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -41,17 +42,11 @@
 #include <string>
 #include "logger.h"
 
-namespace {
-	std::string trimQuotes(const std::string &str) {
-		return str.substr(1, str.length() - 2);
-	}
-}
-
 namespace config {
-	const std::string apiKeyId(trimQuotes(STRINGIFY(API_KEY_ID)));
-	const std::string apiKeySecret(trimQuotes(STRINGIFY(API_KEY_SECRET)));
-	const std::string callbackUrl(trimQuotes(STRINGIFY(CALLBACK_URL)));
-	const std::string fiatCurrency(trimQuotes(STRINGIFY(FIAT_CURRENCY)));
-	const std::string defaultDescription(trimQuotes(STRINGIFY(DEFAULT_DESCRIPTION)));
+	extern std::string apiKeyId;
+	extern std::string apiKeySecret;
+	extern std::string callbackUrl;
+	extern std::string fiatCurrency;
+	extern std::string defaultDescription;
 	void init();
 }

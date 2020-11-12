@@ -1,6 +1,5 @@
 /*
-	Copyright (C) 2020 Samotari (Charles Hill, Carlos Garcia Ortiz)
-	Contributor: Joe Tinker
+	Copyright (C) 2020 Joe Tinker
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -16,22 +15,15 @@
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include "esp_system.h"
-#include "mbedtls/md.h"
-#include "bech32.h"
-#include <cstring>
-#include <iomanip>
-#include <sstream>
-#include <string>
-#include "utilstrencodings.h"
+#include <Arduino.h>
 
-namespace lnurl {
-	std::string create_signed_withdraw_request(
-		const float &amount,
-		const std::string &fiatCurrency,
-		const std::string &apiKeyId,
-		const std::string &apiKeySecret,
-		const std::string &callbackUrl,
-		const std::string &defaultDescription
-	);
+namespace devConsole {
+	void init();
+	bool serialInput();
+	bool compare(String A, String B, byte len);
+	void selectCmd();
+	void showHelp();
+	void show();
+	void writeDefault();
+	void loadConfig();
 }

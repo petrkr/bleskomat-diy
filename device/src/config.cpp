@@ -1,5 +1,6 @@
 /*
 	Copyright (C) 2020 Samotari (Charles Hill, Carlos Garcia Ortiz)
+	Contributor: Joe Tinker
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -17,13 +18,24 @@
 
 #include "config.h"
 
+namespace {
+        std::string trimQuotes(const std::string &str) {
+                return str.substr(1, str.length() - 2);
+        }
+}
+
 namespace config {
+	std::string apiKeyId;
+	std::string apiKeySecret;
+	std::string callbackUrl;
+	std::string fiatCurrency;
+	std::string defaultDescription;
 
 	void init() {
-		logger::write("apiKeyId: " + apiKeyId);
-		logger::write("apiKeySecret: " + apiKeySecret);
-		logger::write("callbackUrl: " + callbackUrl);
-		logger::write("fiatCurrency: " + fiatCurrency);
-		logger::write("defaultDescription: " + defaultDescription);
+		apiKeyId = trimQuotes(STRINGIFY(API_KEY_ID));
+		apiKeySecret = trimQuotes(STRINGIFY(API_KEY_SECRET));
+		callbackUrl = trimQuotes(STRINGIFY(CALLBACK_URL));
+		fiatCurrency = trimQuotes(STRINGIFY(FIAT_CURRENCY));
+		defaultDescription = trimQuotes(STRINGIFY(DEFAULT_DESCRIPTION));
 	}
 }
