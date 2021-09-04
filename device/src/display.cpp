@@ -58,8 +58,8 @@ namespace {
 	}
 
 	float calculateQRCodeScale(const uint8_t &size) {
-		const uint8_t maxWidth = tft.width() - (MARGIN_X * 2);
-		const uint8_t maxHeight = tft.height() - (calculateAmountTextHeight() + MARGIN_Y);
+		const uint16_t maxWidth = tft.width() - (MARGIN_X * 2);
+		const uint16_t maxHeight = tft.height() - (calculateAmountTextHeight() + MARGIN_Y);
 		return std::fmin(
 			std::floor(maxWidth / size),
 			std::floor(maxHeight / size)
@@ -186,9 +186,9 @@ namespace display {
 		uint8_t qrcodeData[qrcode_getBufferSize(size)];
 		qrcode_initText(&qrcode, qrcodeData, size, ECC_LOW, data);
 		const float scale = calculateQRCodeScale(qrcode.size);
-		uint8_t width = qrcode.size * scale;
-		uint8_t offsetX = (tft.width() - width) / 2;
-		uint8_t offsetY = tft.height() - (width + offsetX);
+		uint16_t width = qrcode.size * scale;
+		uint16_t offsetX = (tft.width() - width) / 2;
+		uint16_t offsetY = tft.height() - (width + offsetX);
 		for (uint8_t y = 0; y < qrcode.size; y++) {
 			for (uint8_t x = 0; x < qrcode.size; x++) {
 				int color = qrcode_getModule(&qrcode, x, y) ? TEXT_COLOR : BG_COLOR;
